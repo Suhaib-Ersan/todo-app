@@ -18,8 +18,8 @@ const ToDo = () => {
         toDoList.addItem(e);
     }
 
-    function handlePageChange(e) {
-        setPage(e.target.textContent);
+    function handlePageChange(event, pageNum) {
+        setPage(pageNum);
     }
     useEffect(() => {
         let itemsCount = settings.itemsPerPage;
@@ -74,7 +74,7 @@ const ToDo = () => {
                     <button type="submit">Add Item to your to do list</button>
                 </label>
             </form>
-            <Pagination hideNextButton={true} hidePrevButton={true} onClick={handlePageChange} style={{ display: "flex", justifyContent: "center", marginTop: "1rem" }} count={Math.ceil(toDoList.list.length / settings.itemsPerPage)} />
+            <Pagination onChange={handlePageChange} style={{ display: "flex", justifyContent: "center", marginTop: "1rem" }} count={Math.ceil(toDoList.list.length / settings.itemsPerPage)} />
             {pageContent.map((item) => (
                 <div key={item.id}>
                     <p>{item.text}</p>
