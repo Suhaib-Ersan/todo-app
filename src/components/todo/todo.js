@@ -10,7 +10,7 @@ const ToDo = () => {
     const settings = useContext(SettingsContext);
 
     const [page, setPage] = useState(1);
-    const [pageContent, setPageContent] = useState([])
+    const [pageContent, setPageContent] = useState([]);
     const [incomplete, setIncomplete] = useState([]);
 
     function handleSubmit(e) {
@@ -18,15 +18,21 @@ const ToDo = () => {
         toDoList.addItem(e);
     }
 
-    function handlePageChange(num) {
-      setPage(num);
+    function handlePageChange(e) {
+        setPage(e.target.textContent);
     }
     useEffect(() => {
-      let itemsCount = settings.itemsPerPage;
-      let startItem = itemsCount*page;
-      let arr = toDoList.list.splice(startItem,itemsCount);
-      setPageContent(arr)
-    }, [page,toDoList.list])
+        let itemsCount = settings.itemsPerPage;
+        let startItem = itemsCount * page - 5;
+        // console.log("~ page", page);
+        let arr = [...toDoList.list];
+        // console.log("~ arr", arr);
+        // console.log(`startItem ${startItem}, itemsCount ${itemsCount}`);
+        let newArr = arr.splice(startItem, itemsCount);
+        // console.log("newArr >> ", newArr);
+        setPageContent(newArr);
+        // console.log("pageContent >> ", pageContent);
+    }, [page, toDoList.list]);
     // function deleteItem(id) {
     //     const items = list.filter((item) => item.id !== id);
     //     setList(items);
@@ -68,8 +74,8 @@ const ToDo = () => {
                     <button type="submit">Add Item to your to do list</button>
                 </label>
             </form>
-
-            {toDoList.list.map((item) => (
+            <Pagination hideNextButton={true} hidePrevButton={true} onClick={handlePageChange} style={{ display: "flex", justifyContent: "center", marginTop: "1rem" }} count={Math.ceil(toDoList.list.length / settings.itemsPerPage)} />
+            {pageContent.map((item) => (
                 <div key={item.id}>
                     <p>{item.text}</p>
                     <p>
@@ -82,7 +88,6 @@ const ToDo = () => {
                     <hr />
                 </div>
             ))}
-            <Pagination onClick={handlePageChange} style={{ display: "flex", justifyContent: "center" }} count={10} />
         </>
     );
 };
