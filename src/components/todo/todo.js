@@ -12,6 +12,7 @@ const ToDo = () => {
     const [page, setPage] = useState(1);
     const [pageContent, setPageContent] = useState([]);
     const [incomplete, setIncomplete] = useState([]);
+    const [paginationPage, setPaginationPage] = useState(1);
 
     function handleSubmit(e) {
         e.preventDefault();
@@ -20,6 +21,7 @@ const ToDo = () => {
 
     function handlePageChange(event, pageNum) {
         setPage(pageNum);
+        setPaginationPage(pageNum);
     }
     useEffect(() => {
         let itemsCount = settings.itemsPerPage;
@@ -74,7 +76,7 @@ const ToDo = () => {
                     <button type="submit">Add Item to your to do list</button>
                 </label>
             </form>
-            <Pagination onChange={handlePageChange} style={{ display: "flex", justifyContent: "center", marginTop: "1rem" }} count={Math.ceil(toDoList.list.length / settings.itemsPerPage)} />
+            <Pagination onChange={handlePageChange} style={{ display: "flex", justifyContent: "center", marginTop: "1rem" }} count={Math.ceil(toDoList.list.length / settings.itemsPerPage)} page={paginationPage} />
             {pageContent.map((item) => (
                 <div key={item.id}>
                     <p>{item.text}</p>
@@ -88,6 +90,7 @@ const ToDo = () => {
                     <hr />
                 </div>
             ))}
+            {pageContent.length > 0 ? <Pagination onChange={handlePageChange} style={{ display: "flex", justifyContent: "center", marginTop: "1rem" }} count={Math.ceil(toDoList.list.length / settings.itemsPerPage)} page={paginationPage} /> : null}
         </>
     );
 };
