@@ -3,6 +3,7 @@ export const SettingsContext = React.createContext();
 
 export default function SettingsProvider(props) {
     let [hideCompleted, setHideCompleted] = useState(false);
+
     function changeHideCompleted() {
         setHideCompleted(!hideCompleted);
     }
@@ -14,11 +15,11 @@ export default function SettingsProvider(props) {
 
     const state = {
         hideCompleted,
-        // changeHideCompleted,
+        changeHideCompleted,
         itemsPerPage,
-        // changeItemsPerPage,
+        changeItemsPerPage,
         defaultSortField,
-        // setDefaultSortField
+        setDefaultSortField
     };
 
     return <SettingsContext.Provider value={state}>{props.children}</SettingsContext.Provider>;
