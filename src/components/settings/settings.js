@@ -11,8 +11,6 @@ export default function Settings() {
     // hideCompleted, changeHideCompleted = true/false
     // itemsPerPage, changeItemsPerPage = number
 
-    const [hideCheck, setHideCheck] = useState(false);
-
     function handleHideCheck(event, status) {
         settings.changeHideCompleted(status);
     }
@@ -21,6 +19,7 @@ export default function Settings() {
         console.error("tasks per page accepts numbers between 1 and 99 only")
         return;
       }
+      settings.changeItemsPerPage(event.target.value);
     }
 
     return (
@@ -28,10 +27,10 @@ export default function Settings() {
             <Card>
                 <h3>
                     <span>Hide completed tasks</span>
-                    <FormControlLabel control={<Checkbox onChange={handleHideCheck} defaultChecked={true} />} label={settings.hideCompleted ? "Hidden" : "Shown"} />
+                    <FormControlLabel control={<Checkbox onChange={handleHideCheck} checked={settings.hideCompleted} />} label={settings.hideCompleted ? "Hidden" : "Shown"} />
                 </h3>
                 <h3>
-                    <span>Tasks per page</span> <TextField onChange={handlePageCheck} type="number" helperText="1 - 99 only" />
+                    <span>Tasks per page</span> <TextField value={settings.itemsPerPage} onChange={handlePageCheck} type="number" helperText="1 - 99 only" />
                 </h3>
             </Card>
         </div>
