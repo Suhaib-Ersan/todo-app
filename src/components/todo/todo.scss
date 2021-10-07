@@ -1,4 +1,51 @@
 .todoPage {
-  margin-left: 1rem;
-  margin-right: 1rem;
+    padding: 0.5rem 1rem;
+
+    display: flex;
+    gap: 1rem;
+    height: 100%;
+
+    align-items: stretch;
+    .addFormContainer {
+        width: 30%;
+        padding: 1rem;
+    }
+    .toDoItemsContainer {
+        width: 70%;
+        padding: 1rem;
+
+        display: grid;
+        grid-template-rows: 4.25rem auto;
+
+        .toDoItemsPaginationHeader {
+        }
+
+        .toDoItemsList {
+            overflow: auto;
+            
+            .toDoItem {
+                position: relative;
+                margin: 0.5rem;
+                margin-bottom: 1rem;
+                padding: 1rem;
+                .changeCompleteStatusBtn {
+                    position: absolute;
+                    right: 0.75rem;
+                    bottom: 0.75rem;
+                }
+                .toDoItemCompletedText {
+                    font-weight: 600;
+                }
+                .toDoItemCompletedText-yes {
+                    color: rgb(128, 211, 19);
+                }
+                .toDoItemCompletedText-no {
+                    color: rgb(247, 27, 111);
+                }
+            }
+            > :last-child {
+                margin-bottom: 0.40rem;
+            }
+        }
+    }
 }
