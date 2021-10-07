@@ -50,9 +50,9 @@ const ToDo = () => {
     }, [toDoList.list]);
     return (
         <>
-            <header>
+            <div>
                 <h1>To Do List: {incomplete} items pending</h1>
-            </header>
+            </div>
 
             <form onSubmit={handleSubmit}>
                 <h2>Add To Do Item</h2>
@@ -77,19 +77,26 @@ const ToDo = () => {
                 </label>
             </form>
             <Pagination onChange={handlePageChange} style={{ display: "flex", justifyContent: "center", marginTop: "1rem" }} count={Math.ceil(toDoList.list.length / settings.itemsPerPage)} page={paginationPage} />
-            {pageContent.map((item) => (
-                <div key={item.id}>
-                    <p>{item.text}</p>
-                    <p>
-                        <small>Assigned to: {item.assignee}</small>
-                    </p>
-                    <p>
-                        <small>Difficulty: {item.difficulty}</small>
-                    </p>
-                    <div onClick={() => handleStatusChange(item.id)}>Complete: {item.complete.toString()}</div>
-                    <hr />
-                </div>
-            ))}
+            {pageContent.map((item) => {
+                if (item.complete) {
+                    if (settings.hideCompleted) {
+                        return "";
+                    }
+                }
+                return (
+                    <div key={item.id}>
+                        <p>{item.text}</p>
+                        <p>
+                            <small>Assigned to: {item.assignee}</small>
+                        </p>
+                        <p>
+                            <small>Difficulty: {item.difficulty}</small>
+                        </p>
+                        <div onClick={() => handleStatusChange(item.id)}>Complete: {item.complete.toString()}</div>
+                        <hr />
+                    </div>
+                );
+            })}
             {pageContent.length > 0 ? <Pagination onChange={handlePageChange} style={{ display: "flex", justifyContent: "center", marginTop: "1rem" }} count={Math.ceil(toDoList.list.length / settings.itemsPerPage)} page={paginationPage} /> : null}
         </>
     );

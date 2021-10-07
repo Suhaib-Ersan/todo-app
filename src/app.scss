@@ -1,0 +1,30 @@
+@import url('https://fonts.googleapis.com/css2?family=Pacifico&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Oxygen&family=Pacifico&display=swap');
+body {
+    margin: 0;
+    overflow: hidden;
+
+    font-family: 'Oxygen', sans-serif;
+}
+
+.appJs {
+    display: grid;
+    grid-template-rows: 4rem auto 7rem;
+    grid-template-areas:
+        "header header header header"
+        "main main main main"
+        "footer footer footer footer";
+
+    height: 100vh;
+    grid-gap: 10px;
+    .header {
+        grid-area: header;
+    }
+    .main {
+        grid-area: main;
+        overflow: auto;
+    }
+    .footer {
+        grid-area: footer;
+    }
+}
