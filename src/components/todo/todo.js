@@ -5,6 +5,8 @@ import { SettingsContext } from "../../context/settings.context";
 
 import { Pagination } from "@mui/material";
 
+import "./todo.scss"
+
 const ToDo = () => {
     const toDoList = useContext(TodoItemsContext);
     const settings = useContext(SettingsContext);
@@ -13,6 +15,7 @@ const ToDo = () => {
     const [pageContent, setPageContent] = useState([]);
     const [incomplete, setIncomplete] = useState([]);
     const [paginationPage, setPaginationPage] = useState(1);
+    const [tasksNumber, setTasksNumber] = useState(0)
 
     function handleSubmit(e) {
         e.preventDefault();
@@ -28,13 +31,19 @@ const ToDo = () => {
         let startItem = itemsCount * page - 5;
         // console.log("~ page", page);
         let arr = [...toDoList.list];
+        if (settings.hideCompleted) {
+            arr = arr.filter(task => {
+                return !task.complete;
+            });
+        }
+        setTasksNumber(arr.length);
         // console.log("~ arr", arr);
         // console.log(`startItem ${startItem}, itemsCount ${itemsCount}`);
         let newArr = arr.splice(startItem, itemsCount);
         // console.log("newArr >> ", newArr);
         setPageContent(newArr);
         // console.log("pageContent >> ", pageContent);
-    }, [page, toDoList.list]);
+    }, [page, toDoList.list, settings.hideCompleted]);
     // function deleteItem(id) {
     //     const items = list.filter((item) => item.id !== id);
     //     setList(items);
@@ -49,7 +58,7 @@ const ToDo = () => {
         document.title = `To Do List: ${incomplete}`;
     }, [toDoList.list]);
     return (
-        <>
+        <div className="todoPage" >
             <div>
                 <h1>To Do List: {incomplete} items pending</h1>
             </div>
@@ -76,13 +85,8 @@ const ToDo = () => {
                     <button type="submit">Add Item to your to do list</button>
                 </label>
             </form>
-            <Pagination onChange={handlePageChange} style={{ display: "flex", justifyContent: "center", marginTop: "1rem" }} count={Math.ceil(toDoList.list.length / settings.itemsPerPage)} page={paginationPage} />
+            <Pagination onChange={handlePageChange} style={{ display: "flex", justifyContent: "center", marginTop: "1rem" }} count={Math.ceil(tasksNumber / settings.itemsPerPage)} page={paginationPage} />
             {pageContent.map((item) => {
-                if (item.complete) {
-                    if (settings.hideCompleted) {
-                        return "";
-                    }
-                }
                 return (
                     <div key={item.id}>
                         <p>{item.text}</p>
@@ -97,8 +101,8 @@ const ToDo = () => {
                     </div>
                 );
             })}
-            {pageContent.length > 0 ? <Pagination onChange={handlePageChange} style={{ display: "flex", justifyContent: "center", marginTop: "1rem" }} count={Math.ceil(toDoList.list.length / settings.itemsPerPage)} page={paginationPage} /> : null}
-        </>
+            {pageContent.length > 0 ? <Pagination onChange={handlePageChange} style={{ display: "flex", justifyContent: "center", marginTop: "1rem" }} count={Math.ceil(tasksNumber / settings.itemsPerPage)} page={paginationPage} /> : null}
+        </div>
     );
 };
 
