@@ -1,13 +1,27 @@
 @import url('https://fonts.googleapis.com/css2?family=Pacifico&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Oxygen&family=Pacifico&display=swap');
+
+html, body, #root {
+    height: 100%;
+}
+
 body {
     margin: 0;
     overflow: hidden;
 
     font-family: 'Oxygen', sans-serif;
+    * {
+        box-sizing: border-box;
+      }
+}
+
+::selection {
+    background-color: rgb(230, 142, 42);
+    color:rgba(255, 255, 255, 0.897)
 }
 
 .appJs {
+    height: 100%;
     display: grid;
     grid-template-rows: 4rem auto 7rem;
     grid-template-areas:
@@ -23,6 +37,7 @@ body {
     .main {
         grid-area: main;
         overflow: auto;
+        height: 100%;
     }
     .footer {
         grid-area: footer;

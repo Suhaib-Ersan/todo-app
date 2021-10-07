@@ -3,9 +3,11 @@ import React, { useEffect, useState, useContext } from "react";
 import { TodoItemsContext } from "../../context/todoItems.context";
 import { SettingsContext } from "../../context/settings.context";
 
-import { Pagination } from "@mui/material";
+import { Pagination, Card, Button } from "@mui/material";
+import { styled } from "@mui/material/styles";
 
-import "./todo.scss"
+import "./todo.scss";
+import { Login } from "@mui/icons-material";
 
 const ToDo = () => {
     const toDoList = useContext(TodoItemsContext);
@@ -15,7 +17,7 @@ const ToDo = () => {
     const [pageContent, setPageContent] = useState([]);
     const [incomplete, setIncomplete] = useState([]);
     const [paginationPage, setPaginationPage] = useState(1);
-    const [tasksNumber, setTasksNumber] = useState(0)
+    const [tasksNumber, setTasksNumber] = useState(0);
 
     function handleSubmit(e) {
         e.preventDefault();
@@ -28,11 +30,11 @@ const ToDo = () => {
     }
     useEffect(() => {
         let itemsCount = settings.itemsPerPage;
-        let startItem = itemsCount * page - 5;
+        let startItem = itemsCount * page - itemsCount;
         // console.log("~ page", page);
         let arr = [...toDoList.list];
         if (settings.hideCompleted) {
-            arr = arr.filter(task => {
+            arr = arr.filter((task) => {
                 return !task.complete;
             });
         }
@@ -57,51 +59,87 @@ const ToDo = () => {
         setIncomplete(incompleteCount);
         document.title = `To Do List: ${incomplete}`;
     }, [toDoList.list]);
+    useEffect(async () => {
+        if (pageContent.length < 1) {
+            let num = Math.ceil(tasksNumber / settings.itemsPerPage);
+            setPaginationPage(num);
+            setPage(num);
+        }
+        if (pageContent.length > 0 && page < 1) {
+            // console.log("ran here");
+            setPage(1);
+            setPaginationPage(1);
+        }
+    }, [[pageContent]]);
+
+    function createColorBtn(item) {
+        const ColorButton = styled(Button)(({ theme }) => ({
+            color: item.complete ? "rgba(255, 233, 191, 0.8)" : "rgba(255, 255, 255, 0.88)",
+            backgroundColor: item.complete ? "rgb(37, 20, 0)" : "rgb(255, 178, 90)",
+            "&:hover": {
+                backgroundColor: item.complete ? "rgb(67, 50, 20)" : "rgb(255, 200, 130)",
+            },
+        }));
+        return (
+            <ColorButton onClick={() => handleStatusChange(item.id)} className="changeCompleteStatusBtn" variant="contained">
+                {item.complete ? "Not completed?" : "Completed?"}
+            </ColorButton>
+        );
+    }
+
     return (
-        <div className="todoPage" >
-            <div>
-                <h1>To Do List: {incomplete} items pending</h1>
-            </div>
+        <div className="todoPage">
+            <Card className="addFormContainer">
+                <div>
+                    <h1>To Do List: {incomplete} items pending</h1>
+                </div>
 
-            <form onSubmit={handleSubmit}>
-                <h2>Add To Do Item</h2>
+                <form onSubmit={handleSubmit}>
+                    <h2>Add To Do Item</h2>
 
-                <label>
-                    <span>To Do Item</span>
-                    <input name="text" type="text" placeholder="Item Details" />
-                </label>
+                    <label>
+                        <span>To Do Item</span>
+                        <input name="text" type="text" placeholder="Item Details" />
+                    </label>
 
-                <label>
-                    <span>Assigned To</span>
-                    <input name="assignee" type="text" placeholder="Assignee Name" />
-                </label>
+                    <label>
+                        <span>Assigned To</span>
+                        <input name="assignee" type="text" placeholder="Assignee Name" />
+                    </label>
 
-                <label>
-                    <span>Difficulty</span>
-                    <input defaultValue={5} type="range" min={1} max={10} name="difficulty" />
-                </label>
+                    <label>
+                        <span>Difficulty</span>
+                        <input defaultValue={5} type="range" min={1} max={10} name="difficulty" />
+                    </label>
 
-                <label>
-                    <button type="submit">Add Item to your to do list</button>
-                </label>
-            </form>
-            <Pagination onChange={handlePageChange} style={{ display: "flex", justifyContent: "center", marginTop: "1rem" }} count={Math.ceil(tasksNumber / settings.itemsPerPage)} page={paginationPage} />
-            {pageContent.map((item) => {
-                return (
-                    <div key={item.id}>
-                        <p>{item.text}</p>
-                        <p>
-                            <small>Assigned to: {item.assignee}</small>
-                        </p>
-                        <p>
-                            <small>Difficulty: {item.difficulty}</small>
-                        </p>
-                        <div onClick={() => handleStatusChange(item.id)}>Complete: {item.complete.toString()}</div>
-                        <hr />
-                    </div>
-                );
-            })}
-            {pageContent.length > 0 ? <Pagination onChange={handlePageChange} style={{ display: "flex", justifyContent: "center", marginTop: "1rem" }} count={Math.ceil(tasksNumber / settings.itemsPerPage)} page={paginationPage} /> : null}
+                    <label>
+                        <button type="submit">Add Item to your to do list</button>
+                    </label>
+                </form>
+            </Card>
+            <Card className="toDoItemsContainer">
+                <div className="toDoItemsPaginationHeader">
+                    <Pagination onChange={handlePageChange} style={{ display: "flex", justifyContent: "center", marginTop: "1rem" }} count={Math.ceil(tasksNumber / settings.itemsPerPage)} page={paginationPage} />
+                </div>
+                <div className="toDoItemsList">
+                    {pageContent.map((item) => {
+                        return (
+                            <Card elevation={3} className="toDoItem" key={item.id}>
+                                <p>{item.text}</p>
+                                <p>
+                                    <small>Assigned to: {item.assignee}</small>
+                                </p>
+                                <p>
+                                    <small>Difficulty: {item.difficulty}</small>
+                                </p>
+                                <div className={item.complete ? "toDoItemCompletedText toDoItemCompletedText-yes" : "toDoItemCompletedText toDoItemCompletedText-no"} >{item.complete ? "Completed 🗹" : "Awaiting completion ☒"}</div>
+                                {createColorBtn(item)}
+                            </Card>
+                        );
+                    })}
+                </div>
+                {/* {pageContent.length > 0 ? <Pagination onChange={handlePageChange} style={{ display: "flex", justifyContent: "center", marginTop: "1rem" }} count={Math.ceil(tasksNumber / settings.itemsPerPage)} page={paginationPage} /> : null} */}
+            </Card>
         </div>
     );
 };
