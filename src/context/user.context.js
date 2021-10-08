@@ -71,10 +71,12 @@ export default function LoginProvider(props) {
     };
 
     const capabilityCheck = (capability) => {
+        // return true;
         return user?.capabilities?.includes(capability);
     };
 
     const capabilityCheckNot = (capability) => {
+        // return false;
         return !user?.capabilities?.includes(capability);
     };
     

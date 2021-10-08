@@ -93,8 +93,8 @@ const ToDo = () => {
     return (
         <div className="todoPage">
             <Card className="addFormContainer">
-                <div>
-                    <h1>To Do List: {incomplete} items pending</h1>
+                <div className="toDoHeader" >
+                    <h1>{incomplete} tasks pending</h1>
                 </div>
 
                 <form onSubmit={handleSubmit}>
@@ -102,12 +102,12 @@ const ToDo = () => {
 
                     <label>
                         <span>Task name</span>
-                        <TextField name="text" placeholder="Task Details" />
+                        <TextField name="text" placeholder="Task Details" size="small" />
                     </label>
 
                     <label>
                         <span>Assigned To</span>
-                        <TextField name="assignee" placeholder="Assignee Name" />
+                        <TextField name="assignee" placeholder="Assignee Name" size="small" />
                     </label>
 
                     <label className="difficultyLabel">
@@ -116,12 +116,14 @@ const ToDo = () => {
                     </label>
                     <Auth capability="create">
                         <label className="btnLabel">
-                            <Button style={{maxWidth:"80%"}} type="submit">Add Item to your to do list</Button>
+                            <Button style={{ backgroundColor: "rgb(255, 178, 90)", color: "white", maxWidth: "80%" }} type="submit">
+                                Add Item to your to do list
+                            </Button>
                         </label>
                     </Auth>
                     <AuthNot capability="create">
-                        <label className="btnLabel" >
-                            <Button type="button" style={{ backgroundColor: "rgb(253, 43, 78)", color: "white", maxWidth:"80%" }}>
+                        <label className="btnLabel">
+                            <Button type="button" style={{ backgroundColor: "rgb(253, 43, 78)", color: "white", maxWidth: "80%" }}>
                                 Please login with an account that has a create permission
                             </Button>
                         </label>
