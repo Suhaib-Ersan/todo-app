@@ -35,16 +35,16 @@ export default function Login(props) {
                 <>
                     <form onSubmit={handleSignupSubmit}>
                         <h4>
-                            <span>User Name</span> <TextField name="username"  helperText="" />
+                            <span>User Name</span> <TextField name="username"  helperText="" size="small"  />
                         </h4>
                         <h4>
-                            <span>Password</span> <TextField name="password" type="password" helperText="" />
+                            <span>Password</span> <TextField name="password" type="password" helperText="" size="small"  />
                         </h4>
                         <h4>
-                            <span>Email</span> <TextField name="email"  helperText="" />
+                            <span>Email</span> <TextField name="email"  helperText="" size="small" />
                         </h4>
                         <h4>
-                            <span>Role</span> <TextField name="role"  helperText="user, manager or admin" />
+                            <span>Role</span> <TextField name="role"  helperText="user, manager or admin" size="small"  />
                         </h4>
 
                         <Button sx={{ color: "rgb(255, 150, 30)" }}>Sign up</Button>
