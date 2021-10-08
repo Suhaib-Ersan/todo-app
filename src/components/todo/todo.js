@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useContext } from "react";
 
 import Auth from "../login/auth";
+import AuthNot from "../login/authNot";
 
 import { TodoItemsContext } from "../../context/todoItems.context";
 import { SettingsContext } from "../../context/settings.context";
@@ -118,6 +119,11 @@ const ToDo = () => {
                             <button type="submit">Add Item to your to do list</button>
                         </label>
                     </Auth>
+                    <AuthNot capability="create">
+                        <label>
+                            <button type="button" style={{ backgroundColor: "rgb(253, 43, 78)", color: "white" }}>Please login with an account that has a create permission</button>
+                        </label>
+                    </AuthNot>
                 </form>
             </Card>
             <Card className="toDoItemsContainer">
@@ -142,6 +148,11 @@ const ToDo = () => {
                             );
                         })}
                     </Auth>
+                    <AuthNot capability="read">
+                        <Card elevation={3} className="toDoItem" style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
+                            Please login with an account that has a read permission
+                        </Card>
+                    </AuthNot>
                 </div>
                 {/* {pageContent.length > 0 ? <Pagination onChange={handlePageChange} style={{ display: "flex", justifyContent: "center", marginTop: "1rem" }} count={Math.ceil(tasksNumber / settings.itemsPerPage)} page={paginationPage} /> : null} */}
             </Card>
