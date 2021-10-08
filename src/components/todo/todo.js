@@ -1,5 +1,7 @@
 import React, { useEffect, useState, useContext } from "react";
 
+import Auth from "../login/auth";
+
 import { TodoItemsContext } from "../../context/todoItems.context";
 import { SettingsContext } from "../../context/settings.context";
 
@@ -111,10 +113,11 @@ const ToDo = () => {
                         <span>Difficulty</span>
                         <input defaultValue={5} type="range" min={1} max={10} name="difficulty" />
                     </label>
-
-                    <label>
-                        <button type="submit">Add Item to your to do list</button>
-                    </label>
+                    <Auth capability="create">
+                        <label>
+                            <button type="submit">Add Item to your to do list</button>
+                        </label>
+                    </Auth>
                 </form>
             </Card>
             <Card className="toDoItemsContainer">
@@ -122,21 +125,23 @@ const ToDo = () => {
                     <Pagination onChange={handlePageChange} style={{ display: "flex", justifyContent: "center", marginTop: "1rem" }} count={Math.ceil(tasksNumber / settings.itemsPerPage)} page={paginationPage} />
                 </div>
                 <div className="toDoItemsList">
-                    {pageContent.map((item) => {
-                        return (
-                            <Card elevation={3} className="toDoItem" key={item.id}>
-                                <p>{item.text}</p>
-                                <p>
-                                    <small>Assigned to: {item.assignee}</small>
-                                </p>
-                                <p>
-                                    <small>Difficulty: {item.difficulty}</small>
-                                </p>
-                                <div className={item.complete ? "toDoItemCompletedText toDoItemCompletedText-yes" : "toDoItemCompletedText toDoItemCompletedText-no"} >{item.complete ? "Completed 🗹" : "Awaiting completion ☒"}</div>
-                                {createColorBtn(item)}
-                            </Card>
-                        );
-                    })}
+                    <Auth capability="read">
+                        {pageContent.map((item) => {
+                            return (
+                                <Card elevation={3} className="toDoItem" key={item.id}>
+                                    <p>{item.text}</p>
+                                    <p>
+                                        <small>Assigned to: {item.assignee}</small>
+                                    </p>
+                                    <p>
+                                        <small>Difficulty: {item.difficulty}</small>
+                                    </p>
+                                    <div className={item.complete ? "toDoItemCompletedText toDoItemCompletedText-yes" : "toDoItemCompletedText toDoItemCompletedText-no"}>{item.complete ? "Completed 🗹" : "Awaiting completion ☒"}</div>
+                                    {createColorBtn(item)}
+                                </Card>
+                            );
+                        })}
+                    </Auth>
                 </div>
                 {/* {pageContent.length > 0 ? <Pagination onChange={handlePageChange} style={{ display: "flex", justifyContent: "center", marginTop: "1rem" }} count={Math.ceil(tasksNumber / settings.itemsPerPage)} page={paginationPage} /> : null} */}
             </Card>
