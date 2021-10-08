@@ -2,7 +2,7 @@ import React, { useContext, useState } from "react";
 
 import { SettingsContext } from "../../context/settings.context";
 
-import { Checkbox, FormControlLabel, Card,TextField  } from "@mui/material";
+import { Checkbox, FormControlLabel, Card, TextField } from "@mui/material";
 
 import "./settings.scss";
 
@@ -15,11 +15,11 @@ export default function Settings() {
         settings.changeHideCompleted(status);
     }
     function handlePageCheck(event) {
-      if (event.target.value > 99 || event.target.value <1) {
-        console.error("tasks per page accepts numbers between 1 and 99 only")
-        return;
-      }
-      settings.changeItemsPerPage(event.target.value);
+        if (event.target.value > 99 || event.target.value < 1) {
+            console.error("tasks per page accepts numbers between 1 and 99 only");
+            return;
+        }
+        settings.changeItemsPerPage(event.target.value);
     }
 
     return (

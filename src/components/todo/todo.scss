@@ -9,6 +9,22 @@
     .addFormContainer {
         width: 30%;
         padding: 1rem;
+        > form {
+            > label {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-bottom: 1rem;
+            }
+            .difficultyLabel {
+                > :first-child {
+                    margin-right: 20%;
+                }
+            }
+            .btnLabel {
+                justify-content: center;
+            }
+        }
     }
     .toDoItemsContainer {
         width: 70%;
@@ -22,7 +38,7 @@
 
         .toDoItemsList {
             overflow: auto;
-            
+
             .toDoItem {
                 position: relative;
                 margin: 0.5rem;
@@ -44,7 +60,7 @@
                 }
             }
             > :last-child {
-                margin-bottom: 0.40rem;
+                margin-bottom: 0.4rem;
             }
         }
     }

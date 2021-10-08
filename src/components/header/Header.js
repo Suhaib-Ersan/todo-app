@@ -40,7 +40,7 @@ export default function Header() {
                 </Button>
             </Link>
             <Button className="headerLogin" onClick={modalHandleOpen} size="large" sx={{ color: "white" }}>
-                Login
+                Sign Up
             </Button>
             <Modal open={modalOpen} onClose={modalHandleClose} aria-labelledby="modal-modal-title" aria-describedby="modal-modal-description">
                 <Box sx={style}>
