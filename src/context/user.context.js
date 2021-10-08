@@ -71,10 +71,13 @@ export default function LoginProvider(props) {
     };
 
     const capabilityCheck = (capability) => {
-        console.log(user);
         return user?.capabilities?.includes(capability);
     };
 
+    const capabilityCheckNot = (capability) => {
+        return !user?.capabilities?.includes(capability);
+    };
+    
     const state = {
         loggedIn,
         serverHandleSignup,
@@ -82,6 +85,7 @@ export default function LoginProvider(props) {
         frontEndHandleLogout,
         user,
         capabilityCheck,
+        capabilityCheckNot
     };
 
     return <LoginContext.Provider value={state}>{props.children}</LoginContext.Provider>;
