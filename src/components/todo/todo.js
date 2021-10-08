@@ -6,7 +6,7 @@ import AuthNot from "../login/authNot";
 import { TodoItemsContext } from "../../context/todoItems.context";
 import { SettingsContext } from "../../context/settings.context";
 
-import { Pagination, Card, Button } from "@mui/material";
+import { Pagination, Card, Button, FormControlLabel, TextField, Slider } from "@mui/material";
 import { styled } from "@mui/material/styles";
 
 import "./todo.scss";
@@ -98,30 +98,32 @@ const ToDo = () => {
                 </div>
 
                 <form onSubmit={handleSubmit}>
-                    <h2>Add To Do Item</h2>
+                    <h2>Add a task</h2>
 
                     <label>
-                        <span>To Do Item</span>
-                        <input name="text" type="text" placeholder="Item Details" />
+                        <span>Task name</span>
+                        <TextField name="text" placeholder="Task Details" />
                     </label>
 
                     <label>
                         <span>Assigned To</span>
-                        <input name="assignee" type="text" placeholder="Assignee Name" />
+                        <TextField name="assignee" placeholder="Assignee Name" />
                     </label>
 
-                    <label>
+                    <label className="difficultyLabel">
                         <span>Difficulty</span>
-                        <input defaultValue={5} type="range" min={1} max={10} name="difficulty" />
+                        <Slider aria-label="Difficulty" defaultValue={3} valueLabelDisplay="auto" step={1} marks min={1} max={10} name="difficulty" sx={{ color: "rgb(255, 178, 90)" }} />
                     </label>
                     <Auth capability="create">
-                        <label>
-                            <button type="submit">Add Item to your to do list</button>
+                        <label className="btnLabel">
+                            <Button style={{maxWidth:"80%"}} type="submit">Add Item to your to do list</Button>
                         </label>
                     </Auth>
                     <AuthNot capability="create">
-                        <label>
-                            <button type="button" style={{ backgroundColor: "rgb(253, 43, 78)", color: "white" }}>Please login with an account that has a create permission</button>
+                        <label className="btnLabel" >
+                            <Button type="button" style={{ backgroundColor: "rgb(253, 43, 78)", color: "white", maxWidth:"80%" }}>
+                                Please login with an account that has a create permission
+                            </Button>
                         </label>
                     </AuthNot>
                 </form>
